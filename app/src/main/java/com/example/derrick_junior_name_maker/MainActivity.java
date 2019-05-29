@@ -215,7 +215,10 @@ class QuestionListRecyclerViewAdapter extends RecyclerView.Adapter<QuestionListR
                     @Override
                     public void onClick(View v) {
                         Context context = root.getContext();
-                        context.startActivity(new Intent(context, NameActivity.class));
+                        Intent intent = new Intent(context, NameActivity.class);
+                        intent.putExtra("child.name", "test name");
+
+                        context.startActivity(intent);
                     }
                 });
 
