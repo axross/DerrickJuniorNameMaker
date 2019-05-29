@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="32dp"
+    android:layout_marginBottom="8dp"
     android:orientation="vertical">
 
     <TextView
@@ -16,7 +17,8 @@
         android:layout_height="match_parent"
         android:orientation="horizontal">
 
-        <RadioButton xmlns:android="http://schemas.android.com/apk/res/android"
+        <RadioButton
+            xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/radioButton"
             android:layout_width="wrap_content"
@@ -29,8 +31,7 @@
             android:id="@+id/radioButton2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0
-"
+            android:layout_weight="0"
             android:text="RadioButton" />
 
         <RadioButton
@@ -40,4 +41,5 @@
             android:layout_weight="0"
             android:text="RadioButton" />
     </RadioGroup>
+
 </LinearLayout>
