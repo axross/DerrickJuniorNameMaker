@@ -46,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
     private QuestionStackViewModel questionStackViewModel;
     private WorldPeopleNameList worldPeopleNameList;
 
+    public static final String EXTRA_NAME = "com.example.android.derrick_junior_name_maker.extra.NAME";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -216,7 +218,7 @@ class QuestionListRecyclerViewAdapter extends RecyclerView.Adapter<QuestionListR
                     public void onClick(View v) {
                         Context context = root.getContext();
                         Intent intent = new Intent(context, NameActivity.class);
-                        intent.putExtra("child.name", "test name");
+                        intent.putExtra(MainActivity.EXTRA_NAME, "test name");
 
                         context.startActivity(intent);
                     }

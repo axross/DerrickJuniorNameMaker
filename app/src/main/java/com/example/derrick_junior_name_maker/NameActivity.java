@@ -16,10 +16,6 @@ public class NameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_name);
 
         nameTV = findViewById(R.id.nameTextView);
-        Intent intent = getIntent();
-        String name = intent.getStringExtra("child.name");
-        nameTV.setText(name);
-
-
+        nameTV.setText(getIntent().getStringExtra(MainActivity.EXTRA_NAME));
     }
 }
