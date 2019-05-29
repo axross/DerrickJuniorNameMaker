@@ -9,6 +9,10 @@ public class WorldPeopleNameList {
 
     private final ArrayList<WorldPeopleNameListItem> list;
 
+    public ArrayList<WorldPeopleNameListItem> getList() {
+        return list;
+    }
+
     public ArrayList<String> getCountries() {
         ArrayList<String> countries = new ArrayList<>();
 

@@ -18,4 +18,8 @@ public class WorldPeopleNameListItem {
     public String getRegion() {
         return region;
     }
+
+    public ArrayList<String> getMaleNames() { return maleNames; }
+
+    public ArrayList<String> getFemaleNames() { return femaleNames; }
 }

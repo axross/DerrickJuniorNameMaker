@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -207,25 +206,6 @@ class QuestionListRecyclerViewAdapter extends RecyclerView.Adapter<QuestionListR
             Question question = questionViewModel.getQuestion();
             QuestionOption selectedOption = questionViewModel.getSelectedOption().getValue();
 
-            if(question == null){
-
-                Button button = new Button(root.getContext());
-                button.setText("Get Name");
-
-                optionRadioGroup.addView(button);
-                button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Context context = root.getContext();
-                        Intent intent = new Intent(context, NameActivity.class);
-                        intent.putExtra(MainActivity.EXTRA_NAME, "test name");
-
-                        context.startActivity(intent);
-                    }
-                });
-
-                return;
-            }
             textView.setText(question.getText());
 
             optionRadioGroup.clearCheck();
@@ -241,7 +221,24 @@ class QuestionListRecyclerViewAdapter extends RecyclerView.Adapter<QuestionListR
 
                 optionRadioButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
                     if (isChecked) {
-                        questionViewModel.setSelectedOption(option);
+                        if(question.getId() != 301){
+                            questionViewModel.setSelectedOption(option);
+                        } else {
+                            Button button = new Button(root.getContext());
+                            button.setText("Get Name");
+
+                            optionRadioGroup.addView(button);
+                            button.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Context context = root.getContext();
+                                    Intent intent = new Intent(context, NameActivity.class);
+                                    intent.putExtra(MainActivity.EXTRA_NAME, "test name");
+
+                                    context.startActivity(intent);
+                                }
+                            });
+                        }
                     }
                 });
 

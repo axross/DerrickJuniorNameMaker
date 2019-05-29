@@ -17,6 +17,8 @@ public class QuestionOption {
 
     private final Integer nextQuestionId;
 
+    public int getId() { return id; }
+
     public String getText() {
         return text;
     }
