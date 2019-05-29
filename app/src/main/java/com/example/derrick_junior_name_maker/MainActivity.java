@@ -5,12 +5,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -202,6 +205,22 @@ class QuestionListRecyclerViewAdapter extends RecyclerView.Adapter<QuestionListR
             Question question = questionViewModel.getQuestion();
             QuestionOption selectedOption = questionViewModel.getSelectedOption().getValue();
 
+            if(question == null){
+
+                Button button = new Button(root.getContext());
+                button.setText("Get Name");
+
+                optionRadioGroup.addView(button);
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Context context = root.getContext();
+                        context.startActivity(new Intent(context, NameActivity.class));
+                    }
+                });
+
+                return;
+            }
             textView.setText(question.getText());
 
             optionRadioGroup.clearCheck();
