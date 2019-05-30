@@ -245,12 +245,11 @@ class QuestionListRecyclerViewAdapter extends RecyclerView.Adapter<QuestionListR
                                 public void onClick(View v) {
 
                                     NameLogic nameLogic = NameLogic.getNameLogic();
-//                                    nameLogic.setQuestionList(questionViewModel.);
-//                                    String name = nameLogic.getName();
+                                    String name = nameLogic.getName();
 
                                     Context context = root.getContext();
                                     Intent intent = new Intent(context, NameActivity.class);
-                                    intent.putExtra(MainActivity.EXTRA_NAME, "test name");
+                                    intent.putExtra(MainActivity.EXTRA_NAME, name);
 
                                     context.startActivity(intent);
                                 }

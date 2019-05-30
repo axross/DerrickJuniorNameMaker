@@ -7,18 +7,21 @@ import java.util.Random;
 
 public class NameLogic {
 
-    private static final NameLogic nameLogic = new NameLogic();
+    private static NameLogic nameLogic = null;
 
     private String country;
     private String sex;
-    private ArrayList<QuestionViewModel> questionList;
+    private ArrayList<QuestionViewModel> questionList = new ArrayList<>();
     private WorldPeopleNameList worldPeopleNameList;
 
-    private ArrayList<WorldPeopleNameListItem> countryPeopleNameList;
+    private ArrayList<WorldPeopleNameListItem> countryPeopleNameList = new ArrayList<>();
 
     private NameLogic() {}
 
     public static NameLogic getNameLogic(){
+        if(nameLogic == null){
+            nameLogic = new NameLogic();
+        }
         return nameLogic;
     }
 
@@ -46,7 +49,7 @@ public class NameLogic {
 
         getCountryPeopleNameList();
 
-        questionList.get(0).getSelectedOption();
+//        questionList.get(0).getSelectedOption();
 
         Random random = new Random();
 
@@ -63,7 +66,8 @@ public class NameLogic {
 
     private void getCountryPeopleNameList(){
         for (WorldPeopleNameListItem worldPeopleNameListItem: worldPeopleNameList.getList()) {
-            if(worldPeopleNameListItem.getRegion().equals(this.country)){
+            if(worldPeopleNameListItem.getRegion().equals(this.country)) {
+
                 countryPeopleNameList.add(worldPeopleNameListItem);
             }
         }
