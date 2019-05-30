@@ -5,7 +5,10 @@ import com.example.derrick_junior_name_maker.view_models.QuestionViewModel;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class nameLogic {
+public class NameLogic {
+
+    private static final NameLogic nameLogic = new NameLogic();
+
     private String country;
     private String sex;
     private ArrayList<QuestionViewModel> questionList;
@@ -13,13 +16,30 @@ public class nameLogic {
 
     private ArrayList<WorldPeopleNameListItem> countryPeopleNameList;
 
-    public nameLogic(String country, String sex, ArrayList<QuestionViewModel> questionList, WorldPeopleNameList worldPeopleNameList){
-        this.country = country;
-        this.sex = sex;
-        this.questionList = questionList;
-        this.worldPeopleNameList = worldPeopleNameList;
+    private NameLogic() {}
 
-        countryPeopleNameList = new ArrayList<>();
+    public static NameLogic getNameLogic(){
+        return nameLogic;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public void setQuestionList(ArrayList<QuestionViewModel> questionList) {
+        this.questionList = questionList;
+    }
+
+    public void setWorldPeopleNameList(WorldPeopleNameList worldPeopleNameList) {
+        this.worldPeopleNameList = worldPeopleNameList;
+    }
+
+    public void setCountryPeopleNameList(ArrayList<WorldPeopleNameListItem> countryPeopleNameList) {
+        this.countryPeopleNameList = countryPeopleNameList;
     }
 
     public String getName(){
