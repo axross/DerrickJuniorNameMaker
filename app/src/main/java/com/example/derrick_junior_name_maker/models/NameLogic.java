@@ -23,6 +23,10 @@ public class NameLogic {
         return nameLogic;
     }
 
+    public static void destroyNameLogic(){
+        nameLogic = null;
+    }
+
     public void setCountry(String country) {
         for (WorldPeopleNameListItem item: this.worldPeopleNameList.getList()) {
             if (item.getRegion() == country) {

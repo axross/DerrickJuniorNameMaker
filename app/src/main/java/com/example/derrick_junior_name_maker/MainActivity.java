@@ -106,6 +106,12 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        NameLogic.destroyNameLogic();
+    }
+
     private WorldPeopleNameList getWorldPeopleNameList() {
         try {
             JSONArray json = new JSONArray(new Scanner(getResources().openRawResource(R.raw.names)).useDelimiter("\\A").next());
