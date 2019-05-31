@@ -5,17 +5,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.example.derrick_junior_name_maker.models.NameLogic;
 import com.example.derrick_junior_name_maker.models.Question;
 import com.example.derrick_junior_name_maker.models.QuestionList;
 import com.example.derrick_junior_name_maker.models.QuestionListBuilder;
@@ -32,6 +35,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.jar.Attributes;
 
 public class MainActivity extends AppCompatActivity {
     private Spinner countrySpinner;
@@ -42,6 +46,9 @@ public class MainActivity extends AppCompatActivity {
 
     private QuestionStackViewModel questionStackViewModel;
     private WorldPeopleNameList worldPeopleNameList;
+    private NameLogic nameLogic;
+
+    public static final String EXTRA_NAME = "com.example.android.derrick_junior_name_maker.extra.NAME";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
 
         questionStackViewModel = new QuestionStackViewModel(getQuestionList());
         worldPeopleNameList = getWorldPeopleNameList();
+        nameLogic = NameLogic.getNameLogic();
 
         ArrayAdapter<String> countrySpinnerAdapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, worldPeopleNameList.getCountries());
         countrySpinner.setAdapter(countrySpinnerAdapter);
@@ -67,10 +75,16 @@ public class MainActivity extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.gender_radio_male:
+                        nameLogic.setCountry(countrySpinner.getSelectedItem().toString());
+                        nameLogic.setWorldPeopleNameList(worldPeopleNameList);
+                        nameLogic.setSex("MALE");
                         questionStackViewModel.setFirstQuestion(101);
 
                         break;
                     case R.id.gender_radio_female:
+                        nameLogic.setCountry(countrySpinner.getSelectedItem().toString());
+                        nameLogic.setWorldPeopleNameList(worldPeopleNameList);
+                        nameLogic.setSex("FEMALE");
                         questionStackViewModel.setFirstQuestion(201);
 
                         break;
@@ -217,7 +231,30 @@ class QuestionListRecyclerViewAdapter extends RecyclerView.Adapter<QuestionListR
 
                 optionRadioButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
                     if (isChecked) {
-                        questionViewModel.setSelectedOption(option);
+                        if(question.getId() != 301){
+
+                            questionViewModel.setSelectedOption(option);
+                        } else {
+
+                            Button button = new Button(root.getContext());
+                            button.setText("Get Name");
+
+                            optionRadioGroup.addView(button);
+                            button.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+
+                                    NameLogic nameLogic = NameLogic.getNameLogic();
+                                    String name = nameLogic.getName();
+
+                                    Context context = root.getContext();
+                                    Intent intent = new Intent(context, NameActivity.class);
+                                    intent.putExtra(MainActivity.EXTRA_NAME, name);
+
+                                    context.startActivity(intent);
+                                }
+                            });
+                        }
                     }
                 });
 

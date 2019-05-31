@@ -134,12 +134,12 @@
       {
         "id": 0,
         "text": "Certain!",
-        "nextQuestionId": null
+        "nextQuestionId": 0
       },
       {
         "id": 1,
         "text": "Not sure",
-        "nextQuestionId": null
+        "nextQuestionId": 0
       }
     ]
   }
