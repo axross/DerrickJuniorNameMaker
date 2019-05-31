@@ -2,6 +2,7 @@ package com.example.derrick_junior_name_maker;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -219,6 +221,7 @@ class QuestionListRecyclerViewAdapter extends RecyclerView.Adapter<QuestionListR
             root = view;
             textView = view.findViewById(R.id.question_list_item_text);
             optionRadioGroup = view.findViewById(R.id.question_list_item_radio_group);
+            question_list_item_linear_layout = view.findViewById(R.id.question_list_item_linear_layout);
         }
 
         private final View root;
@@ -226,6 +229,8 @@ class QuestionListRecyclerViewAdapter extends RecyclerView.Adapter<QuestionListR
         private final TextView textView;
 
         private final RadioGroup optionRadioGroup;
+
+        private final LinearLayout question_list_item_linear_layout;
 
         private void setQuestionViewModel(QuestionStackViewModel questionStackViewModel, QuestionViewModel questionViewModel) {
             Question question = questionViewModel.getQuestion();
@@ -252,7 +257,7 @@ class QuestionListRecyclerViewAdapter extends RecyclerView.Adapter<QuestionListR
                             Button button = new Button(root.getContext());
                             button.setText("Get Name");
 
-                            optionRadioGroup.addView(button);
+                            question_list_item_linear_layout.addView(button);
                             button.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
