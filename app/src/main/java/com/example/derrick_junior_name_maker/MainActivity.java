@@ -232,6 +232,8 @@ class QuestionListRecyclerViewAdapter extends RecyclerView.Adapter<QuestionListR
 
         private final LinearLayout question_list_item_linear_layout;
 
+        private boolean isButtonAdd = false;
+
         private void setQuestionViewModel(QuestionStackViewModel questionStackViewModel, QuestionViewModel questionViewModel) {
             Question question = questionViewModel.getQuestion();
             QuestionOption selectedOption = questionViewModel.getSelectedOption().getValue();
@@ -253,7 +255,9 @@ class QuestionListRecyclerViewAdapter extends RecyclerView.Adapter<QuestionListR
                     if (isChecked) {
                         questionViewModel.setSelectedOption(option);
 
-                        if (option.getNextQuestionId() == null) {
+                        if (option.getNextQuestionId() == null && !isButtonAdd) {
+                            isButtonAdd = true;
+
                             Button button = new Button(root.getContext());
                             button.setText("Get Name");
 
