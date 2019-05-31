@@ -18,7 +18,7 @@ public class Question {
 
     private final List<QuestionOption> options;
 
-    public int getId() { return id; }
+    public Integer getId() { return id; }
 
     public String getText() {
         return text;

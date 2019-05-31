@@ -3,18 +3,16 @@ package com.example.derrick_junior_name_maker.models;
 import com.example.derrick_junior_name_maker.view_models.QuestionViewModel;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class NameLogic {
 
     private static NameLogic nameLogic = null;
 
-    private String country;
     private String sex;
     private ArrayList<QuestionViewModel> questionList = new ArrayList<>();
     private WorldPeopleNameList worldPeopleNameList;
 
-    private ArrayList<WorldPeopleNameListItem> countryPeopleNameList = new ArrayList<>();
+    private WorldPeopleNameListItem countryPeopleNameList;
 
     private NameLogic() {}
 
@@ -26,7 +24,11 @@ public class NameLogic {
     }
 
     public void setCountry(String country) {
-        this.country = country;
+        for (WorldPeopleNameListItem item: this.worldPeopleNameList.getList()) {
+            if (item.getRegion() == country) {
+                this.countryPeopleNameList = item;
+            }
+        }
     }
 
     public void setSex(String sex) {
@@ -41,35 +43,19 @@ public class NameLogic {
         this.worldPeopleNameList = worldPeopleNameList;
     }
 
-    public void setCountryPeopleNameList(ArrayList<WorldPeopleNameListItem> countryPeopleNameList) {
-        this.countryPeopleNameList = countryPeopleNameList;
-    }
+    public String getName(ArrayList<QuestionViewModel> questions) {
+        int total = 0;
 
-    public String getName(){
+        for (int i = 0; i < questions.size(); ++i) {
+            int id = questions.get(i).getSelectedOption().getValue().getId();
 
-        getCountryPeopleNameList();
-
-//        questionList.get(0).getSelectedOption();
-
-        Random random = new Random();
-
-        if(false) {
-            return "https://dna-testing.ca/locations/vancouver.html";
+            total = total | id << i;
         }
 
         if(sex.equals("MALE")){
-            return countryPeopleNameList.get(0).getMaleNames().get(random.nextInt(countryPeopleNameList.get(0).getMaleNames().size()));
+            return this.countryPeopleNameList.getMaleNames().get(total % this.countryPeopleNameList.getMaleNames().size());
         } else {
-            return countryPeopleNameList.get(0).getMaleNames().get(random.nextInt(countryPeopleNameList.get(0).getFemaleNames().size()));
-        }
-    }
-
-    private void getCountryPeopleNameList(){
-        for (WorldPeopleNameListItem worldPeopleNameListItem: worldPeopleNameList.getList()) {
-            if(worldPeopleNameListItem.getRegion().equals(this.country)) {
-
-                countryPeopleNameList.add(worldPeopleNameListItem);
-            }
+            return this.countryPeopleNameList.getFemaleNames().get(total % this.countryPeopleNameList.getFemaleNames().size());
         }
     }
 }

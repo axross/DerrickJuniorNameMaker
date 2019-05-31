@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -35,7 +36,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.jar.Attributes;
 
 public class MainActivity extends AppCompatActivity {
     private Spinner countrySpinner;
@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
         questionStackViewModel = new QuestionStackViewModel(getQuestionList());
         worldPeopleNameList = getWorldPeopleNameList();
         nameLogic = NameLogic.getNameLogic();
+        nameLogic.setWorldPeopleNameList(worldPeopleNameList);
 
         ArrayAdapter<String> countrySpinnerAdapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, worldPeopleNameList.getCountries());
         countrySpinner.setAdapter(countrySpinnerAdapter);
@@ -70,20 +71,28 @@ public class MainActivity extends AppCompatActivity {
         questionListRecyclerViewAdapter = new QuestionListRecyclerViewAdapter(questionStackViewModel);
         questionListRecyclerView.setAdapter(questionListRecyclerViewAdapter);
 
+        countrySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                nameLogic.setCountry(countrySpinner.getSelectedItem().toString());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         genderRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.gender_radio_male:
-                        nameLogic.setCountry(countrySpinner.getSelectedItem().toString());
-                        nameLogic.setWorldPeopleNameList(worldPeopleNameList);
                         nameLogic.setSex("MALE");
                         questionStackViewModel.setFirstQuestion(101);
 
                         break;
                     case R.id.gender_radio_female:
-                        nameLogic.setCountry(countrySpinner.getSelectedItem().toString());
-                        nameLogic.setWorldPeopleNameList(worldPeopleNameList);
                         nameLogic.setSex("FEMALE");
                         questionStackViewModel.setFirstQuestion(201);
 
@@ -189,7 +198,7 @@ class QuestionListRecyclerViewAdapter extends RecyclerView.Adapter<QuestionListR
 
     @Override
     public void onBindViewHolder(@NonNull QuestionListRecyclerViewAdapter.ViewHolder holder, int position) {
-        holder.setQuestionViewModel(questionStackViewModel.getQuestions().getValue().get(position));
+        holder.setQuestionViewModel(questionStackViewModel, questionStackViewModel.getQuestions().getValue().get(position));
     }
 
     @Override
@@ -212,7 +221,7 @@ class QuestionListRecyclerViewAdapter extends RecyclerView.Adapter<QuestionListR
 
         private final RadioGroup optionRadioGroup;
 
-        private void setQuestionViewModel(QuestionViewModel questionViewModel) {
+        private void setQuestionViewModel(QuestionStackViewModel questionStackViewModel, QuestionViewModel questionViewModel) {
             Question question = questionViewModel.getQuestion();
             QuestionOption selectedOption = questionViewModel.getSelectedOption().getValue();
 
@@ -231,11 +240,9 @@ class QuestionListRecyclerViewAdapter extends RecyclerView.Adapter<QuestionListR
 
                 optionRadioButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
                     if (isChecked) {
-                        if(question.getId() != 301){
+                        questionViewModel.setSelectedOption(option);
 
-                            questionViewModel.setSelectedOption(option);
-                        } else {
-
+                        if (option.getNextQuestionId() == null) {
                             Button button = new Button(root.getContext());
                             button.setText("Get Name");
 
@@ -243,9 +250,8 @@ class QuestionListRecyclerViewAdapter extends RecyclerView.Adapter<QuestionListR
                             button.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-
                                     NameLogic nameLogic = NameLogic.getNameLogic();
-                                    String name = nameLogic.getName();
+                                    String name = nameLogic.getName(questionStackViewModel.getQuestions().getValue());
 
                                     Context context = root.getContext();
                                     Intent intent = new Intent(context, NameActivity.class);

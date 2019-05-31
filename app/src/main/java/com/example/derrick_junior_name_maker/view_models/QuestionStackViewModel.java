@@ -35,7 +35,9 @@ public class QuestionStackViewModel extends ViewModel {
         QuestionViewModel questionViewModel = new QuestionViewModel(question);
 
         questionViewModel.getSelectedOption().observeForever(option -> {
-            insertQuestionAfter(question, questionList.getQuestionById(option.getNextQuestionId()));
+            if (option.getNextQuestionId() != null) {
+                insertQuestionAfter(question, questionList.getQuestionById(option.getNextQuestionId()));
+            }
         });
 
         questionViewModels.add(questionViewModel);
